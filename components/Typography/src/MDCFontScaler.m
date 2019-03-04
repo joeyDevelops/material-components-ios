@@ -45,21 +45,196 @@ MDCTextStyle MDCTextStyleOverline = @"MDC.TextStyle.Overline";
 - (instancetype)initForMaterialTextStyle:(MDCTextStyle)textStyle {
   self = [super init];
   if (self) {
-    // TODO(iangordon): Fill in missing fonts
     if ([MDCTextStyleHeadline1 isEqualToString:textStyle]) {
       NSDictionary<UIContentSizeCategory, NSNumber *> *scalingCurve = @{
-        UIContentSizeCategoryExtraSmall : @30,
-        UIContentSizeCategorySmall : @32,
-        UIContentSizeCategoryMedium : @34,
-        UIContentSizeCategoryLarge : @36,
-        UIContentSizeCategoryExtraLarge : @38,
-        UIContentSizeCategoryExtraExtraLarge : @40,
-        UIContentSizeCategoryExtraExtraExtraLarge : @42,
-        UIContentSizeCategoryAccessibilityMedium : @46,
-        UIContentSizeCategoryAccessibilityLarge : @50,
+        UIContentSizeCategoryExtraSmall : @84,
+        UIContentSizeCategorySmall : @88,
+        UIContentSizeCategoryMedium : @92,
+        UIContentSizeCategoryLarge : @96,
+        UIContentSizeCategoryExtraLarge : @100,
+        UIContentSizeCategoryExtraExtraLarge : @104,
+        UIContentSizeCategoryExtraExtraExtraLarge : @108,
+        UIContentSizeCategoryAccessibilityMedium : @108,
+        UIContentSizeCategoryAccessibilityLarge : @108,
+        UIContentSizeCategoryAccessibilityExtraLarge : @108,
+        UIContentSizeCategoryAccessibilityExtraExtraLarge : @108,
+        UIContentSizeCategoryAccessibilityExtraExtraExtraLarge : @108
+      };
+      _scalingCurve = scalingCurve;
+    } else if ([MDCTextStyleHeadline2 isEqualToString:textStyle]) {
+      NSDictionary<UIContentSizeCategory, NSNumber *> *scalingCurve = @{
+        UIContentSizeCategoryExtraSmall : @54,
+        UIContentSizeCategorySmall : @56,
+        UIContentSizeCategoryMedium : @58,
+        UIContentSizeCategoryLarge : @60,
+        UIContentSizeCategoryExtraLarge : @62,
+        UIContentSizeCategoryExtraExtraLarge : @64,
+        UIContentSizeCategoryExtraExtraExtraLarge : @66,
+        UIContentSizeCategoryAccessibilityMedium : @66,
+        UIContentSizeCategoryAccessibilityLarge : @66,
+        UIContentSizeCategoryAccessibilityExtraLarge : @66,
+        UIContentSizeCategoryAccessibilityExtraExtraLarge : @66,
+        UIContentSizeCategoryAccessibilityExtraExtraExtraLarge : @66
+      };
+      _scalingCurve = scalingCurve;
+    } else if ([MDCTextStyleHeadline3 isEqualToString:textStyle]) {
+      NSDictionary<UIContentSizeCategory, NSNumber *> *scalingCurve = @{
+        UIContentSizeCategoryExtraSmall : @42,
+        UIContentSizeCategorySmall : @44,
+        UIContentSizeCategoryMedium : @46,
+        UIContentSizeCategoryLarge : @48,
+        UIContentSizeCategoryExtraLarge : @50,
+        UIContentSizeCategoryExtraExtraLarge : @52,
+        UIContentSizeCategoryExtraExtraExtraLarge : @54,
+        UIContentSizeCategoryAccessibilityMedium : @54,
+        UIContentSizeCategoryAccessibilityLarge : @54,
         UIContentSizeCategoryAccessibilityExtraLarge : @54,
-        UIContentSizeCategoryAccessibilityExtraExtraLarge : @58,
-        UIContentSizeCategoryAccessibilityExtraExtraExtraLarge : @62
+        UIContentSizeCategoryAccessibilityExtraExtraLarge : @54,
+        UIContentSizeCategoryAccessibilityExtraExtraExtraLarge : @54
+      };
+      _scalingCurve = scalingCurve;
+    } else if ([MDCTextStyleHeadline4 isEqualToString:textStyle]) {
+      NSDictionary<UIContentSizeCategory, NSNumber *> *scalingCurve = @{
+        UIContentSizeCategoryExtraSmall : @28,
+        UIContentSizeCategorySmall : @30,
+        UIContentSizeCategoryMedium : @32,
+        UIContentSizeCategoryLarge : @34,
+        UIContentSizeCategoryExtraLarge : @36,
+        UIContentSizeCategoryExtraExtraLarge : @38,
+        UIContentSizeCategoryExtraExtraExtraLarge : @40,
+        UIContentSizeCategoryAccessibilityMedium : @42,
+        UIContentSizeCategoryAccessibilityLarge : @42,
+        UIContentSizeCategoryAccessibilityExtraLarge : @42,
+        UIContentSizeCategoryAccessibilityExtraExtraLarge : @42,
+        UIContentSizeCategoryAccessibilityExtraExtraExtraLarge : @42
+      };
+      _scalingCurve = scalingCurve;
+    } else if ([MDCTextStyleHeadline5 isEqualToString:textStyle]) {
+      NSDictionary<UIContentSizeCategory, NSNumber *> *scalingCurve = @{
+        UIContentSizeCategoryExtraSmall : @21,
+        UIContentSizeCategorySmall : @22,
+        UIContentSizeCategoryMedium : @23,
+        UIContentSizeCategoryLarge : @24,
+        UIContentSizeCategoryExtraLarge : @26,
+        UIContentSizeCategoryExtraExtraLarge : @28,
+        UIContentSizeCategoryExtraExtraExtraLarge : @30,
+        UIContentSizeCategoryAccessibilityMedium : @32,
+        UIContentSizeCategoryAccessibilityLarge : @32,
+        UIContentSizeCategoryAccessibilityExtraLarge : @32,
+        UIContentSizeCategoryAccessibilityExtraExtraLarge : @32,
+        UIContentSizeCategoryAccessibilityExtraExtraExtraLarge : @32
+      };
+      _scalingCurve = scalingCurve;
+    } else if ([MDCTextStyleHeadline6 isEqualToString:textStyle]) {
+      NSDictionary<UIContentSizeCategory, NSNumber *> *scalingCurve = @{
+        UIContentSizeCategoryExtraSmall : @17,
+        UIContentSizeCategorySmall : @18,
+        UIContentSizeCategoryMedium : @19,
+        UIContentSizeCategoryLarge : @20,
+        UIContentSizeCategoryExtraLarge : @22,
+        UIContentSizeCategoryExtraExtraLarge : @24,
+        UIContentSizeCategoryExtraExtraExtraLarge : @26,
+        UIContentSizeCategoryAccessibilityMedium : @28,
+        UIContentSizeCategoryAccessibilityLarge : @28,
+        UIContentSizeCategoryAccessibilityExtraLarge : @28,
+        UIContentSizeCategoryAccessibilityExtraExtraLarge : @28,
+        UIContentSizeCategoryAccessibilityExtraExtraExtraLarge : @28
+      };
+      _scalingCurve = scalingCurve;
+    } else if ([MDCTextStyleSubtitle1 isEqualToString:textStyle]) {
+      NSDictionary<UIContentSizeCategory, NSNumber *> *scalingCurve = @{
+        UIContentSizeCategoryExtraSmall : @13,
+        UIContentSizeCategorySmall : @14,
+        UIContentSizeCategoryMedium : @15,
+        UIContentSizeCategoryLarge : @16,
+        UIContentSizeCategoryExtraLarge : @18,
+        UIContentSizeCategoryExtraExtraLarge : @20,
+        UIContentSizeCategoryExtraExtraExtraLarge : @22,
+        UIContentSizeCategoryAccessibilityMedium : @25,
+        UIContentSizeCategoryAccessibilityLarge : @30,
+        UIContentSizeCategoryAccessibilityExtraLarge : @37,
+        UIContentSizeCategoryAccessibilityExtraExtraLarge : @44,
+        UIContentSizeCategoryAccessibilityExtraExtraExtraLarge : @52
+      };
+      _scalingCurve = scalingCurve;
+    } else if ([MDCTextStyleSubtitle2 isEqualToString:textStyle]) {
+      NSDictionary<UIContentSizeCategory, NSNumber *> *scalingCurve = @{
+        UIContentSizeCategoryExtraSmall : @11,
+        UIContentSizeCategorySmall : @12,
+        UIContentSizeCategoryMedium : @13,
+        UIContentSizeCategoryLarge : @14,
+        UIContentSizeCategoryExtraLarge : @16,
+        UIContentSizeCategoryExtraExtraLarge : @18,
+        UIContentSizeCategoryExtraExtraExtraLarge : @20,
+        UIContentSizeCategoryAccessibilityMedium : @22,
+        UIContentSizeCategoryAccessibilityLarge : @25,
+        UIContentSizeCategoryAccessibilityExtraLarge : @30,
+        UIContentSizeCategoryAccessibilityExtraExtraLarge : @36,
+        UIContentSizeCategoryAccessibilityExtraExtraExtraLarge : @42
+      };
+      _scalingCurve = scalingCurve;
+    } else if ([MDCTextStyleBody2 isEqualToString:textStyle]) {
+      NSDictionary<UIContentSizeCategory, NSNumber *> *scalingCurve = @{
+        UIContentSizeCategoryExtraSmall : @11,
+        UIContentSizeCategorySmall : @12,
+        UIContentSizeCategoryMedium : @13,
+        UIContentSizeCategoryLarge : @14,
+        UIContentSizeCategoryExtraLarge : @16,
+        UIContentSizeCategoryExtraExtraLarge : @18,
+        UIContentSizeCategoryExtraExtraExtraLarge : @20,
+        UIContentSizeCategoryAccessibilityMedium : @22,
+        UIContentSizeCategoryAccessibilityLarge : @25,
+        UIContentSizeCategoryAccessibilityExtraLarge : @30,
+        UIContentSizeCategoryAccessibilityExtraExtraLarge : @36,
+        UIContentSizeCategoryAccessibilityExtraExtraExtraLarge : @42
+      };
+      _scalingCurve = scalingCurve;
+    } else if ([MDCTextStyleButton isEqualToString:textStyle]) {
+      NSDictionary<UIContentSizeCategory, NSNumber *> *scalingCurve = @{
+        UIContentSizeCategoryExtraSmall : @11,
+        UIContentSizeCategorySmall : @12,
+        UIContentSizeCategoryMedium : @13,
+        UIContentSizeCategoryLarge : @14,
+        UIContentSizeCategoryExtraLarge : @16,
+        UIContentSizeCategoryExtraExtraLarge : @18,
+        UIContentSizeCategoryExtraExtraExtraLarge : @20,
+        UIContentSizeCategoryAccessibilityMedium : @22,
+        UIContentSizeCategoryAccessibilityLarge : @24,
+        UIContentSizeCategoryAccessibilityExtraLarge : @26,
+        UIContentSizeCategoryAccessibilityExtraExtraLarge : @28,
+        UIContentSizeCategoryAccessibilityExtraExtraExtraLarge : @30
+      };
+      _scalingCurve = scalingCurve;
+    } else if ([MDCTextStyleCaption isEqualToString:textStyle]) {
+      NSDictionary<UIContentSizeCategory, NSNumber *> *scalingCurve = @{
+        UIContentSizeCategoryExtraSmall : @11,
+        UIContentSizeCategorySmall : @11,
+        UIContentSizeCategoryMedium : @11,
+        UIContentSizeCategoryLarge : @12,
+        UIContentSizeCategoryExtraLarge : @14,
+        UIContentSizeCategoryExtraExtraLarge : @16,
+        UIContentSizeCategoryExtraExtraExtraLarge : @18,
+        UIContentSizeCategoryAccessibilityMedium : @20,
+        UIContentSizeCategoryAccessibilityLarge : @22,
+        UIContentSizeCategoryAccessibilityExtraLarge : @24,
+        UIContentSizeCategoryAccessibilityExtraExtraLarge : @26,
+        UIContentSizeCategoryAccessibilityExtraExtraExtraLarge : @28
+      };
+      _scalingCurve = scalingCurve;
+    } else if ([MDCTextStyleOverline isEqualToString:textStyle]) {
+      NSDictionary<UIContentSizeCategory, NSNumber *> *scalingCurve = @{
+        UIContentSizeCategoryExtraSmall : @8,
+        UIContentSizeCategorySmall : @8,
+        UIContentSizeCategoryMedium : @9,
+        UIContentSizeCategoryLarge : @10,
+        UIContentSizeCategoryExtraLarge : @12,
+        UIContentSizeCategoryExtraExtraLarge : @14,
+        UIContentSizeCategoryExtraExtraExtraLarge : @16,
+        UIContentSizeCategoryAccessibilityMedium : @18,
+        UIContentSizeCategoryAccessibilityLarge : @20,
+        UIContentSizeCategoryAccessibilityExtraLarge : @22,
+        UIContentSizeCategoryAccessibilityExtraExtraLarge : @24,
+        UIContentSizeCategoryAccessibilityExtraExtraExtraLarge : @26
       };
       _scalingCurve = scalingCurve;
     } else {
@@ -86,7 +261,7 @@ MDCTextStyle MDCTextStyleOverline = @"MDC.TextStyle.Overline";
 }
 
 - (UIFont *)scalableFontWithFont:(UIFont *)font {
-  // If we are within an application, query the preferredContentSizeCategory.
+  // IIf it is available, query the preferredContentSizeCategory.
   UIContentSizeCategory sizeCategory = UIContentSizeCategoryLarge;
   if ([UIApplication mdc_safeSharedApplication]) {
     sizeCategory = [UIApplication mdc_safeSharedApplication].preferredContentSizeCategory;
@@ -94,8 +269,6 @@ MDCTextStyle MDCTextStyleOverline = @"MDC.TextStyle.Overline";
     sizeCategory = UIScreen.mainScreen.traitCollection.preferredContentSizeCategory;
   }
 
-  //??? Should we scale here
-  // Do what Apple does
   UIFont *scaledFont = [font mdc_scaledFontForSizeCategory:sizeCategory];
 
   return scaledFont;
