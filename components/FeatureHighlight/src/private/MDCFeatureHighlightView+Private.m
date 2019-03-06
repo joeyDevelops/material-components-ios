@@ -183,9 +183,15 @@ static inline CGPoint CGPointAddedToPoint(CGPoint a, CGPoint b) {
     _titleFont = [MDCFeatureHighlightView defaultTitleFont];
   }
   if (_mdc_adjustsFontForContentSizeCategory) {
-    _titleLabel.font =
-        [_titleFont mdc_fontSizedForMaterialTextStyle:kTitleTextStyle
-                                 scaledForDynamicType:_mdc_adjustsFontForContentSizeCategory];
+    if (_titleLabel.font.mdc_scalingCurve) {
+      // If our font has an associated scaling curve
+      _titleLabel.font = [_titleLabel.font mdc_scaledFontForCurrentSizeCategory];
+    } else {
+      // Fallback to our original implementation
+      _titleLabel.font =
+          [_titleFont mdc_fontSizedForMaterialTextStyle:kTitleTextStyle
+                                   scaledForDynamicType:_mdc_adjustsFontForContentSizeCategory];
+    }
   } else {
     _titleLabel.font = _titleFont;
   }
@@ -210,9 +216,15 @@ static inline CGPoint CGPointAddedToPoint(CGPoint a, CGPoint b) {
     _bodyFont = [MDCFeatureHighlightView defaultBodyFont];
   }
   if (_mdc_adjustsFontForContentSizeCategory) {
-    _bodyLabel.font =
-        [_bodyFont mdc_fontSizedForMaterialTextStyle:kBodyTextStyle
-                                scaledForDynamicType:_mdc_adjustsFontForContentSizeCategory];
+    if (_bodyLabel.font.mdc_scalingCurve) {
+      // If our font has an associated scaling curve
+      _bodyLabel.font = [_bodyLabel.font mdc_scaledFontForCurrentSizeCategory];
+    } else {
+      // Fallback to our original implementation
+      _bodyLabel.font =
+          [_bodyFont mdc_fontSizedForMaterialTextStyle:kBodyTextStyle
+                                  scaledForDynamicType:_mdc_adjustsFontForContentSizeCategory];
+    }
   } else {
     _bodyLabel.font = _bodyFont;
   }
