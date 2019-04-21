@@ -64,6 +64,7 @@ class BottomDrawerWithScrollableContentExample: UIViewController {
 
   @objc func presentNavigationDrawer() {
     let bottomDrawerViewController = MDCBottomDrawerViewController()
+    bottomDrawerViewController.maximumInitialDrawerHeight = 400;
     bottomDrawerViewController.contentViewController = contentViewController
     bottomDrawerViewController.headerViewController = headerViewController
     bottomDrawerViewController.trackingScrollView = contentViewController.collectionView
@@ -130,7 +131,7 @@ class DrawerContentWithScrollViewController: UIViewController,
 
 extension BottomDrawerWithScrollableContentExample {
 
-  class func catalogMetadata() -> [String: Any] {
+  @objc class func catalogMetadata() -> [String: Any] {
     return [
       "breadcrumbs": ["Navigation Drawer", "Bottom Drawer Scrollable Content"],
       "primaryDemo": false,

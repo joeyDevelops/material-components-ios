@@ -14,8 +14,8 @@
 
 import Foundation
 import MaterialComponents.MaterialButtonBar
+import MaterialComponents.MaterialContainerScheme
 import MaterialComponentsBeta.MaterialButtonBar_Theming
-import MaterialComponentsBeta.MaterialContainerScheme
 
 class ButtonBarTypicalUseSwiftExample: UIViewController {
   var colorScheme = MDCSemanticColorScheme(defaults: .material201804)
@@ -35,7 +35,7 @@ class ButtonBarTypicalUseSwiftExample: UIViewController {
     buttonBar.applyPrimaryTheme(withScheme: scheme)
 
     // MDCButtonBar ignores the style of UIBarButtonItem.
-    let ignored: UIBarButtonItemStyle = .done
+    let ignored: UIBarButtonItem.Style = .done
 
     let actionItem = UIBarButtonItem(
       title: "Action",
@@ -85,7 +85,7 @@ class ButtonBarTypicalUseSwiftExample: UIViewController {
 // MARK: Catalog by convention
 extension ButtonBarTypicalUseSwiftExample {
 
-  class func catalogMetadata() -> [String: Any] {
+  @objc class func catalogMetadata() -> [String: Any] {
     return [
       "breadcrumbs": ["Button Bar", "Button Bar (Swift)"],
       "primaryDemo": false,

@@ -57,6 +57,16 @@ mdc_public_objc_library(
 )
 
 mdc_extension_objc_library(
+    name = "Theming",
+    deps = [
+        ":ColorThemer",
+        ":TextFields",
+        ":TypographyThemer",
+        "//components/schemes/Container",
+    ],
+)
+
+mdc_extension_objc_library(
     name = "ColorThemer",
     deps = [
         ":TextFields",
@@ -117,7 +127,7 @@ swift_library(
     srcs = glob(["examples/experimental/*.swift"]),
     copts = [
         "-swift-version",
-        "3",
+        "4.2",
     ],
     deps = [":ExperimentalExampleSource"],
 )
@@ -180,15 +190,19 @@ mdc_snapshot_test(
 
 swift_library(
     name = "unit_test_swift_sources",
-    srcs = glob(["tests/unit/*.swift"]),
+    srcs = glob([
+        "tests/unit/*.swift",
+        "tests/unit/Theming/*.swift"
+    ]),
     copts = [
         "-swift-version",
-        "3",
+        "4.2",
     ],
     visibility = ["//visibility:private"],
     deps = [
         ":ColorThemer",
         ":TextFields",
+        ":Theming",
         "//components/Palettes",
         "//components/private/Math",
     ],

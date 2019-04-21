@@ -14,10 +14,9 @@
 
 import UIKit
 import MaterialComponents.MaterialButtons_ButtonThemer
-import MaterialComponents.MaterialCards_Private
-import MaterialComponentsBeta.MaterialCards_Theming
-import MaterialComponentsBeta.MaterialContainerScheme
-import MaterialComponentsBeta.MaterialButtons_Theming
+import MaterialComponents.MaterialContainerScheme
+import MaterialComponents.MaterialCards_Theming
+import MaterialComponents.MaterialButtons_Theming
 
 class CardWithRippleExample: UIViewController {
   var card = MDCCard()
@@ -26,7 +25,7 @@ class CardWithRippleExample: UIViewController {
   var containerScheme: MDCContainerScheming
 
   override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
-    card.enableBetaBehavior = true
+    card.enableRippleBehavior = true
     containerScheme = MDCContainerScheme()
     super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
   }
@@ -78,7 +77,7 @@ class CardWithRippleExample: UIViewController {
 
 extension CardWithRippleExample {
 
-  class func catalogMetadata() -> [String: Any] {
+  @objc class func catalogMetadata() -> [String: Any] {
     return [
       "breadcrumbs": ["Ripple", "Card with Ripple"],
       "primaryDemo": false,

@@ -61,20 +61,18 @@ class BottomNavigationSelectedIconExample: UIViewController {
     layoutBottomNavBar()
   }
 
-  #if swift(>=3.2)
   @available(iOS 11, *)
   override func viewSafeAreaInsetsDidChange() {
     super.viewSafeAreaInsetsDidChange()
     layoutBottomNavBar()
   }
-  #endif
 }
 
 
 // MARK: - Catalog by Conventions
 extension BottomNavigationSelectedIconExample {
 
-  class func catalogMetadata() -> [String: Any] {
+  @objc class func catalogMetadata() -> [String: Any] {
     return [
       "breadcrumbs": ["Bottom Navigation", "Bottom Navigation Selected"],
       "primaryDemo": false,

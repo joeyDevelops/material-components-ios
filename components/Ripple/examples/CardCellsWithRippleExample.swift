@@ -14,11 +14,10 @@
 
 import UIKit
 
-import MaterialComponents.MaterialCards_Private
 import MaterialComponents.MaterialColorScheme
+import MaterialComponents.MaterialContainerScheme
 import MaterialComponents.MaterialTypographyScheme
-import MaterialComponentsBeta.MaterialCards_Theming
-import MaterialComponentsBeta.MaterialContainerScheme
+import MaterialComponents.MaterialCards_Theming
 
 class CardCellsWithRippleExample: UIViewController,
   UICollectionViewDelegate,
@@ -36,11 +35,11 @@ class CardCellsWithRippleExample: UIViewController,
   var containerScheme: MDCContainerScheming
 
   var colorScheme: MDCColorScheming {
-    return containerScheme.colorScheme ?? MDCSemanticColorScheme()
+    return containerScheme.colorScheme
   }
 
   var typographyScheme: MDCTypographyScheming {
-    return containerScheme.typographyScheme ?? MDCTypographyScheme()
+    return containerScheme.typographyScheme
   }
 
   override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
@@ -77,21 +76,17 @@ class CardCellsWithRippleExample: UIViewController,
       collectionView.addGestureRecognizer(longPressGesture)
     }
 
-    #if swift(>=3.2)
-      if #available(iOS 11, *) {
-        let guide = view.safeAreaLayoutGuide
-        NSLayoutConstraint.activate([
-          collectionView.leftAnchor.constraint(equalTo: guide.leftAnchor),
-          collectionView.rightAnchor.constraint(equalTo: guide.rightAnchor),
-          collectionView.topAnchor.constraint(equalTo: view.topAnchor),
-          collectionView.bottomAnchor.constraint(equalTo: guide.bottomAnchor)])
-        collectionView.contentInsetAdjustmentBehavior = .always
-      } else {
-        preiOS11Constraints()
-      }
-    #else
+    if #available(iOS 11, *) {
+      let guide = view.safeAreaLayoutGuide
+      NSLayoutConstraint.activate([
+        collectionView.leftAnchor.constraint(equalTo: guide.leftAnchor),
+        collectionView.rightAnchor.constraint(equalTo: guide.rightAnchor),
+        collectionView.topAnchor.constraint(equalTo: view.topAnchor),
+        collectionView.bottomAnchor.constraint(equalTo: guide.bottomAnchor)])
+      collectionView.contentInsetAdjustmentBehavior = .always
+    } else {
       preiOS11Constraints()
-    #endif
+    }
 
     self.updateTitle()
   }
@@ -118,7 +113,7 @@ class CardCellsWithRippleExample: UIViewController,
     }
   }
 
-  func toggleModes() {
+  @objc func toggleModes() {
     switch toggle {
     case .edit:
       toggle = .reorder
@@ -134,7 +129,7 @@ class CardCellsWithRippleExample: UIViewController,
 
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath)
     guard let cardCell = cell as? MDCCardCollectionCell else { return cell }
-    cardCell.enableBetaBehavior = true
+    cardCell.enableRippleBehavior = true
     cardCell.applyTheme(withScheme: containerScheme)
     cardCell.isSelectable = (toggle == .edit)
     cardCell.isAccessibilityElement = true
@@ -222,7 +217,7 @@ class CardCellsWithRippleExample: UIViewController,
 
 extension CardCellsWithRippleExample {
 
-  class func catalogMetadata() -> [String: Any] {
+  @objc class func catalogMetadata() -> [String: Any] {
     return [
       "breadcrumbs": ["Ripple", "Card Cell with Ripple"],
       "primaryDemo": false,

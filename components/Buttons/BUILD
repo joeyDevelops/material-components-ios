@@ -38,6 +38,7 @@ mdc_public_objc_library(
     ],
     deps = [
         "//components/Ink",
+        "//components/Ripple",
         "//components/ShadowElevations",
         "//components/ShadowLayer",
         "//components/ShapeLibrary",
@@ -180,7 +181,7 @@ swift_library(
     ]),
     copts = [
         "-swift-version",
-        "3",
+        "4.2",
     ],
     visibility = ["//visibility:private"],
     deps = [

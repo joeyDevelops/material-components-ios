@@ -15,19 +15,19 @@
 import Foundation
 import MaterialComponents.MaterialButtons_ButtonThemer
 import MaterialComponents.MaterialColorScheme
+import MaterialComponents.MaterialContainerScheme
 import MaterialComponents.MaterialShapeScheme
 import MaterialComponents.MaterialTypographyScheme
-import MaterialComponentsBeta.MaterialContainerScheme
 
 final class AppTheme {
   let containerScheme: MDCContainerScheming
 
   var colorScheme: MDCColorScheming {
-    return containerScheme.colorScheme ?? MDCSemanticColorScheme(defaults: .material201804)
+    return containerScheme.colorScheme
   }
 
   var typographyScheme: MDCTypographyScheming {
-    return containerScheme.typographyScheme ?? MDCTypographyScheme(defaults: .material201804)
+    return containerScheme.typographyScheme
   }
 
   init(containerScheme: MDCContainerScheming) {

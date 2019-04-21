@@ -143,7 +143,7 @@ UICollectionViewDelegate, UICollectionViewDataSource {
     return 1
   }
 
-  func didTap(gestureRecognizer : UITapGestureRecognizer) {
+  @objc func didTap(gestureRecognizer : UITapGestureRecognizer) {
     longList = !longList
     collectionView.reloadData()
     self.preferredContentSize = CGSize(width: self.view.bounds.width,
@@ -153,7 +153,7 @@ UICollectionViewDelegate, UICollectionViewDataSource {
 
 extension BottomDrawerWithChangingContentSizeExample {
 
-  class func catalogMetadata() -> [String: Any] {
+  @objc class func catalogMetadata() -> [String: Any] {
     return [
       "breadcrumbs": ["Navigation Drawer", "Bottom Drawer Changing Content Size"],
       "primaryDemo": false,

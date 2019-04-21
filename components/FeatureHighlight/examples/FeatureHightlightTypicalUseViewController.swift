@@ -56,7 +56,7 @@ class FeatureHighlightSwiftViewController: UIViewController {
     featureButton.frame.origin.y = view.bounds.height / 2 - featureButton.frame.height / 2
   }
 
-  func showFeatureHighlight() {
+  @objc func showFeatureHighlight() {
     let vc = MDCFeatureHighlightViewController(highlightedView: featureButton,
                                                completion: nil)
     MDCFeatureHighlightColorThemer.applySemanticColorScheme(colorScheme, to: vc)
@@ -70,7 +70,7 @@ class FeatureHighlightSwiftViewController: UIViewController {
 
 extension FeatureHighlightSwiftViewController {
 
-  class func catalogMetadata() -> [String: Any] {
+  @objc class func catalogMetadata() -> [String: Any] {
     return [
       "breadcrumbs": ["Feature Highlight", "Feature Highlight (Swift)"],
       "primaryDemo": false,

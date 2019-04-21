@@ -31,11 +31,11 @@ class AppBarAnimatedJumpExample: UIViewController {
   var typographyScheme = MDCTypographyScheme()
 
   fileprivate let tabs = [
-    SimpleTableViewController(title: "First"),
-    SimpleTableViewController(title: "Second"),
-    SimpleTableViewController(title: "Third"),
+    SimpleComposedTableViewController(title: "First"),
+    SimpleComposedTableViewController(title: "Second"),
+    SimpleComposedTableViewController(title: "Third"),
   ]
-  private var currentTab: SimpleTableViewController? = nil
+  private var currentTab: SimpleComposedTableViewController? = nil
 
   lazy var tabBar: MDCTabBar = {
     let tabBar = MDCTabBar()
@@ -73,16 +73,12 @@ class AppBarAnimatedJumpExample: UIViewController {
     view.isOpaque = false
     view.backgroundColor = colorScheme.backgroundColor
     view.addSubview(appBarViewController.view)
-    #if swift(>=4.2)
     appBarViewController.didMove(toParent: self)
-    #else
-    appBarViewController.didMove(toParentViewController: self)
-    #endif
 
     switchToTab(tabs[0], animated: false)
   }
 
-  fileprivate func switchToTab(_ tab: SimpleTableViewController, animated: Bool = true) {
+  fileprivate func switchToTab(_ tab: SimpleComposedTableViewController, animated: Bool = true) {
 
     appBarViewController.headerView.trackingScrollWillChange(toScroll: tab.tableView)
 
@@ -90,7 +86,7 @@ class AppBarAnimatedJumpExample: UIViewController {
     let removeOld: (() -> Void)
     let animateOut: (() -> Void)
     if let currentTab = currentTab {
-      currentTab.willMove(toParentViewController: nil)
+      currentTab.willMove(toParent: nil)
 
       animateOut = {
         currentTab.view.alpha = 0
@@ -99,7 +95,7 @@ class AppBarAnimatedJumpExample: UIViewController {
       removeOld = {
         currentTab.headerView = nil
         currentTab.view.removeFromSuperview()
-        currentTab.removeFromParentViewController()
+        currentTab.removeFromParent()
       }
     } else {
       removeOld = {}
@@ -113,12 +109,9 @@ class AppBarAnimatedJumpExample: UIViewController {
 
     // Show new tab.
     view.addSubview(tab.view)
-    view.sendSubview(toBack: tab.view)
-    #if swift(>=4.2)
+    view.sendSubviewToBack(tab.view)
     tab.didMove(toParent: self)
-    #else
-    tab.didMove(toParentViewController: self)
-    #endif
+    tab.headerView = self.appBarViewController.headerView
 
     tab.view.alpha = 0
     let animateIn = {
@@ -126,8 +119,6 @@ class AppBarAnimatedJumpExample: UIViewController {
     }
 
     let finishMove = {
-      tab.headerView = self.appBarViewController.headerView
-
       self.appBarViewController.headerView.trackingScrollView = tab.tableView
       self.currentTab = tab
     }
@@ -163,7 +154,7 @@ class AppBarAnimatedJumpExample: UIViewController {
   private func makeAppBar() -> MDCAppBarViewController {
     let appBarViewController = MDCAppBarViewController()
 
-    addChildViewController(appBarViewController)
+    addChild(appBarViewController)
 
     // Give the tab bar enough height to accomodate all possible item appearances.
     appBarViewController.headerView.minMaxHeightIncludesSafeArea = false
@@ -179,7 +170,7 @@ class AppBarAnimatedJumpExample: UIViewController {
     return appBarViewController
   }
 
-  override var childViewControllerForStatusBarStyle: UIViewController? {
+  override var childForStatusBarStyle: UIViewController? {
     return appBarViewController
   }
 }
@@ -192,7 +183,7 @@ extension AppBarAnimatedJumpExample: MDCTabBarDelegate {
 
 extension AppBarAnimatedJumpExample {
 
-  class func catalogMetadata() -> [String: Any] {
+  @objc class func catalogMetadata() -> [String: Any] {
     return [
       "breadcrumbs": ["App Bar", "Manual Tabs Jump (Animated)"],
       "primaryDemo": false,
@@ -205,75 +196,3 @@ extension AppBarAnimatedJumpExample {
   }
 }
 
-fileprivate class SimpleTableViewController: UIViewController {
-
-  init(title: String) {
-    super.init(nibName: nil, bundle: nil)
-    self.title = title
-  }
-
-  required init?(coder aDecoder: NSCoder) {
-    fatalError("NSCoding unsupported")
-  }
-
-  var tableView = UITableView(frame: CGRect(), style: .plain)
-
-  var headerView: MDCFlexibleHeaderView?
-
-  override func viewDidLoad() {
-    super.viewDidLoad()
-
-    self.view.addSubview(tableView)
-    self.tableView.frame = self.view.bounds
-
-    tableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
-    tableView.delegate = self
-    tableView.dataSource = self
-
-    view.isOpaque = false
-    view.backgroundColor = .white
-  }
-}
-
-extension SimpleTableViewController: UITableViewDataSource {
-
-  func numberOfSections(in tableView: UITableView) -> Int {
-    return 1
-  }
-
-  func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return 100
-  }
-}
-
-extension SimpleTableViewController: UITableViewDelegate {
-
-  func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
-    let titleString = title ?? ""
-    cell.textLabel?.text = "\(titleString): Row \(indexPath.item)"
-    return cell
-  }
-
-  func scrollViewDidScroll(_ scrollView: UIScrollView) {
-    headerView?.trackingScrollDidScroll()
-  }
-
-  func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-    headerView?.trackingScrollDidEndDecelerating()
-  }
-
-  func scrollViewWillEndDragging(
-    _ scrollView: UIScrollView,
-    withVelocity velocity: CGPoint,
-    targetContentOffset: UnsafeMutablePointer<CGPoint>
-  ) {
-    headerView?.trackingScrollWillEndDragging(
-      withVelocity: velocity,
-      targetContentOffset: targetContentOffset)
-  }
-
-  func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-    headerView?.trackingScrollDidEndDraggingWillDecelerate(decelerate)
-  }
-}

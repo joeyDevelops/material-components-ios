@@ -17,6 +17,7 @@
 #import <MDFTextAccessibility/MDFTextAccessibility.h>
 #import "MaterialInk.h"
 #import "MaterialMath.h"
+#import "MaterialRipple.h"
 #import "MaterialShadowElevations.h"
 #import "MaterialShadowLayer.h"
 #import "MaterialTypography.h"
@@ -93,6 +94,7 @@ static NSAttributedString *uppercaseAttributedString(NSAttributedString *string)
 
   BOOL _mdc_adjustsFontForContentSizeCategory;
 }
+@property(nonatomic, strong, readonly, nonnull) MDCStatefulRippleView *rippleView;
 @property(nonatomic, strong) MDCInkView *inkView;
 @property(nonatomic, readonly, strong) MDCShapedShadowLayer *layer;
 @end
@@ -153,7 +155,6 @@ static NSAttributedString *uppercaseAttributedString(NSAttributedString *string)
   _borderWidths = [NSMutableDictionary dictionary];
   _fonts = [NSMutableDictionary dictionary];
   _accessibilityTraitsIncludesButton = YES;
-  [super setAccessibilityTraits:[super accessibilityTraits] | UIAccessibilityTraitButton];
 
   if (!_backgroundColors) {
     // _backgroundColors may have already been initialized by setting the backgroundColor setter.
@@ -198,6 +199,9 @@ static NSAttributedString *uppercaseAttributedString(NSAttributedString *string)
   self.exclusiveTouch = YES;
 
   _inkView.inkColor = [UIColor colorWithWhite:1 alpha:(CGFloat)0.2];
+
+  _rippleView = [[MDCStatefulRippleView alloc] initWithFrame:self.bounds];
+  _rippleView.rippleColor = [UIColor colorWithWhite:1 alpha:(CGFloat)0.12];
 
   // Uppercase all titles
   if (_uppercaseTitle) {
@@ -256,7 +260,9 @@ static NSAttributedString *uppercaseAttributedString(NSAttributedString *string)
     _inkView.frame =
         CGRectMake(offsetX, offsetY, CGRectGetWidth(self.bounds), CGRectGetHeight(self.bounds));
   } else {
-    _inkView.frame = self.bounds;
+    CGRect bounds = CGRectStandardize(self.bounds);
+    _inkView.frame = bounds;
+    self.rippleView.frame = bounds;
   }
   self.titleLabel.frame = MDCRectAlignToScale(self.titleLabel.frame, [UIScreen mainScreen].scale);
 }
@@ -287,6 +293,7 @@ static NSAttributedString *uppercaseAttributedString(NSAttributedString *string)
 - (void)willMoveToSuperview:(UIView *)newSuperview {
   [super willMoveToSuperview:newSuperview];
   [self.inkView cancelAllAnimationsAnimated:NO];
+  [self.rippleView cancelAllRipplesAnimated:NO completion:nil];
 }
 
 - (CGSize)sizeThatFits:(CGSize)size {
@@ -309,29 +316,53 @@ static NSAttributedString *uppercaseAttributedString(NSAttributedString *string)
 #pragma mark - UIResponder
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+  if (self.enableRippleBehavior) {
+    [self.rippleView touchesBegan:touches withEvent:event];
+  }
   [super touchesBegan:touches withEvent:event];
 
-  [self handleBeginTouches:touches];
+  if (self.enableRippleBehavior) {
+    self.rippleView.rippleHighlighted = YES;
+  } else {
+    [self handleBeginTouches:touches];
+  }
 }
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
+  if (self.enableRippleBehavior) {
+    [self.rippleView touchesMoved:touches withEvent:event];
+  }
   [super touchesMoved:touches withEvent:event];
 
   // Drag events handled by -touchDragExit:forEvent: and -touchDragEnter:forEvent:
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+  if (self.enableRippleBehavior) {
+    [self.rippleView touchesEnded:touches withEvent:event];
+  }
   [super touchesEnded:touches withEvent:event];
 
-  CGPoint location = [self locationFromTouches:touches];
-  [_inkView startTouchEndedAnimationAtPoint:location completion:nil];
+  if (self.enableRippleBehavior) {
+    self.rippleView.rippleHighlighted = NO;
+  } else {
+    CGPoint location = [self locationFromTouches:touches];
+    [_inkView startTouchEndedAnimationAtPoint:location completion:nil];
+  }
 }
 
 // Note - in some cases, event may be nil (e.g. view removed from window).
 - (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
+  if (self.enableRippleBehavior) {
+    [self.rippleView touchesCancelled:touches withEvent:event];
+  }
   [super touchesCancelled:touches withEvent:event];
 
-  [self evaporateInkToPoint:[self locationFromTouches:touches]];
+  if (self.enableRippleBehavior) {
+    self.rippleView.rippleHighlighted = NO;
+  } else {
+    [self evaporateInkToPoint:[self locationFromTouches:touches]];
+  }
 }
 
 #pragma mark - UIControl methods
@@ -498,6 +529,8 @@ static NSAttributedString *uppercaseAttributedString(NSAttributedString *string)
 
 - (void)setInkStyle:(MDCInkStyle)inkStyle {
   _inkView.inkStyle = inkStyle;
+  self.rippleView.rippleStyle =
+      (inkStyle == MDCInkStyleUnbounded) ? MDCRippleStyleUnbounded : MDCRippleStyleBounded;
 }
 
 - (UIColor *)inkColor {
@@ -506,6 +539,7 @@ static NSAttributedString *uppercaseAttributedString(NSAttributedString *string)
 
 - (void)setInkColor:(UIColor *)inkColor {
   _inkView.inkColor = inkColor;
+  [self.rippleView setRippleColor:inkColor forState:MDCRippleStateHighlighted];
 }
 
 - (CGFloat)inkMaxRippleRadius {
@@ -514,6 +548,18 @@ static NSAttributedString *uppercaseAttributedString(NSAttributedString *string)
 
 - (void)setInkMaxRippleRadius:(CGFloat)inkMaxRippleRadius {
   _inkView.maxRippleRadius = inkMaxRippleRadius;
+}
+
+- (void)setEnableRippleBehavior:(BOOL)enableRippleBehavior {
+  _enableRippleBehavior = enableRippleBehavior;
+
+  if (enableRippleBehavior) {
+    [self.inkView removeFromSuperview];
+    [self insertSubview:self.rippleView belowSubview:self.imageView];
+  } else {
+    [self.rippleView removeFromSuperview];
+    [self insertSubview:self.inkView belowSubview:self.imageView];
+  }
 }
 
 #pragma mark - Shadows
@@ -820,7 +866,12 @@ static NSAttributedString *uppercaseAttributedString(NSAttributedString *string)
 
   if (_mdc_adjustsFontForContentSizeCategory) {
     // Dynamic type is enabled so apply scaling
-    font = [font mdc_fontSizedForMaterialTextStyle:MDCFontTextStyleButton scaledForDynamicType:YES];
+    if (font.mdc_scalingCurve && !_mdc_legacyFontScaling) {
+      font = [font mdc_scaledFontForCurrentSizeCategory];
+    } else {
+      font = [font mdc_fontSizedForMaterialTextStyle:MDCFontTextStyleButton
+                                scaledForDynamicType:YES];
+    }
   }
 
   self.titleLabel.font = font;
@@ -840,7 +891,11 @@ static NSAttributedString *uppercaseAttributedString(NSAttributedString *string)
   // Because the inkView needs to go below the imageView, but above the colorLayer
   // we need to have the colorLayer be at the back
   [self.layer.colorLayer removeFromSuperlayer];
-  [self.layer insertSublayer:self.layer.colorLayer below:self.inkView.layer];
+  if (self.enableRippleBehavior) {
+    [self.layer insertSublayer:self.layer.colorLayer below:self.rippleView.layer];
+  } else {
+    [self.layer insertSublayer:self.layer.colorLayer below:self.inkView.layer];
+  }
   [self updateBackgroundColor];
   [self updateInkForShape];
 }
@@ -854,6 +909,7 @@ static NSAttributedString *uppercaseAttributedString(NSAttributedString *string)
   self.inkView.maxRippleRadius =
       (CGFloat)(MDCHypot(CGRectGetHeight(boundingBox), CGRectGetWidth(boundingBox)) / 2 + 10);
   self.inkView.layer.masksToBounds = NO;
+  self.rippleView.layer.masksToBounds = NO;
 }
 
 #pragma mark - Dynamic Type

@@ -64,6 +64,7 @@ class BottomDrawerInfiniteScrollingExample: UIViewController {
 
   @objc private func presentNavigationDrawer() {
     let bottomDrawerViewController = MDCBottomDrawerViewController()
+    bottomDrawerViewController.maximumInitialDrawerHeight = 400;
     bottomDrawerViewController.contentViewController = contentViewController
     contentViewController.drawerVC = bottomDrawerViewController
     bottomDrawerViewController.setTopCornersRadius(12, for: .collapsed)
@@ -144,7 +145,7 @@ class DrawerContentTableViewController: UITableViewController {
 
 extension BottomDrawerInfiniteScrollingExample {
 
-  class func catalogMetadata() -> [String: Any] {
+  @objc class func catalogMetadata() -> [String: Any] {
     return [
       "breadcrumbs": ["Navigation Drawer", "Bottom Drawer Infinite Scrolling"],
       "description": "Navigation Drawer",

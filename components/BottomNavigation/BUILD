@@ -60,6 +60,7 @@ mdc_objc_library(
     visibility = ["//visibility:public"],
     deps = [
         "//components/Ink",
+        "//components/Palettes",
         "//components/ShadowElevations",
         "//components/ShadowLayer",
         "//components/Typography",
@@ -146,7 +147,7 @@ swift_library(
     ),
     copts = [
         "-swift-version",
-        "3",
+        "4.2",
     ],
     deps = [
         ":BottomNavigationBeta",
